@@ -1,0 +1,50 @@
+{
+    "name": "DeepGlobe_Road_Segmentation",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "UNet",
+        "args": {
+            "in_channels": 3,
+            "out_channels": 1,
+            "block_type": "BasicBlock"
+        }
+    },
+    
+    "dataset": {
+        "datasets_root": "D:/project/pythonProject/Road_Identification/SAM2-UNet/deepglobe",
+        "input_size": 256,
+        "batch_size": 8,
+        "num_workers": 4
+    },
+    
+    "optimizer": {
+        "type": "Adam",
+        "args": {
+            "lr": 0.001,
+            "weight_decay": 0.0001
+        }
+    },
+    
+    "lr_scheduler": {
+        "type": "CosineAnnealingLR",
+        "args": {
+            "T_max": 80,
+            "eta_min": 1e-6
+        }
+    },
+    
+    "loss": "dice_bce_loss",
+    
+    "metrics": ["IoU", "mIoU"],
+    
+    "trainer": {
+        "epochs": 80,
+        "save_dir": "saved/deepglobe",
+        "save_period": 5,
+        "monitor": "max val_mIoU",
+        "early_stop": 20,
+        "tensorboard": true,
+        "log_dir": "saved/logs"
+    }
+}
